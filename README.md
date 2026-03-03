@@ -17,9 +17,9 @@ Gerador de invoices de reembolso com análise automática de recibos via IA.
    ```bash
    npm install
    ```
-3. Crie um arquivo `.env.local` com sua API key da Anthropic:
+3. Crie um arquivo `.env.local` com sua API key do Google AI:
    ```
-   ANTHROPIC_API_KEY=sk-ant-...
+   GOOGLE_API_KEY=AIza...
    ```
 4. Execute em desenvolvimento:
    ```bash
@@ -29,11 +29,11 @@ Gerador de invoices de reembolso com análise automática de recibos via IA.
 ## Deploy no Vercel
 
 1. Conecte o repositório ao Vercel
-2. Adicione a variável de ambiente `ANTHROPIC_API_KEY` nas settings do projeto
+2. Adicione a variável de ambiente `GOOGLE_API_KEY` nas settings do projeto
 3. Deploy!
 
 ## Tech Stack
 
 - Next.js 15
 - TypeScript
-- Anthropic Claude API (Claude Sonnet 4)
+- Google Gemini 2.0 Flash API
