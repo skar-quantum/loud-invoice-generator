@@ -364,7 +364,9 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
   const loudLogoDataURL = `data:image/svg+xml;base64,${btoa(loudLogoSVG)}`;
 
   const generatePDF = () => {
-    const receiptPages = receipts.map(r => `
+    const receiptPages = receipts
+      .filter(r => r.src && r.src.startsWith('data:'))
+      .map(r => `
       <div class="page receipt-page">
         <img src="${r.src}" style="width:100%;max-height:260mm;object-fit:contain;"/>
       </div>`).join('');
@@ -379,7 +381,8 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
       @page { size: A4 portrait; margin: 18mm 18mm 18mm 18mm; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       body { font-family: Arial, sans-serif; font-size: 12px; color: #111; background: #fff; }
-      .page { width: 100%; min-height: 257mm; page-break-after: always; display: flex; flex-direction: column; }
+      .page { width: 100%; min-height: 257mm; page-break-after: auto; display: flex; flex-direction: column; }
+      .page:not(:last-child) { page-break-after: always; }
       .receipt-page { align-items: center; justify-content: center; padding: 4mm 0; }
       .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #22c55e; padding-bottom: 12px; margin-bottom: 18px; }
       .header-left img { display: block; }
