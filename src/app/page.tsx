@@ -281,6 +281,7 @@ interface Item {
   desc: string;
   value: string;
   receiptSrc: string | null;
+  isRefund: boolean;
 }
 
 interface Receipt {
@@ -330,9 +331,9 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
     setBankForm({ ...emptyForm, ...p });
   };
 
-  const addItem = () => setItems(prev => [...prev, { desc: '', value: '', receiptSrc: null }]);
+  const addItem = () => setItems(prev => [...prev, { desc: '', value: '', receiptSrc: null, isRefund: false }]);
   const removeItem = (i: number) => { setItems(items.filter((_, idx) => idx !== i)); setReceipts(receipts.filter((_, idx) => idx !== i)); };
-  const updateItem = (i: number, f: keyof Item, v: string) => { const n = [...items]; n[i] = { ...n[i], [f]: v }; setItems(n); };
+  const updateItem = (i: number, f: keyof Item, v: string | boolean) => { const n = [...items]; n[i] = { ...n[i], [f]: v }; setItems(n); };
 
   const handleFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -346,10 +347,10 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
       const prev = `data:${mt};base64,${b64}`;
       try {
         const result = await analyzeReceipt(b64, mt);
-        setItems(p => [...p, { desc: result.desc || 'Receipt', value: (result.value || '0').replace('.', ','), receiptSrc: prev }]);
+        setItems(p => [...p, { desc: result.desc || 'Receipt', value: (result.value || '0').replace('.', ','), receiptSrc: prev, isRefund: false }]);
         setReceipts(p => [...p, { name: f.name, src: prev }]);
       } catch {
-        setItems(p => [...p, { desc: f.name, value: '0', receiptSrc: prev }]);
+        setItems(p => [...p, { desc: f.name, value: '0', receiptSrc: prev, isRefund: false }]);
         setReceipts(p => [...p, { name: f.name, src: prev }]);
       }
     }
@@ -369,7 +370,8 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
       </div>`).join('');
     const itemRows = items.map(it => {
       const v = parseFloat(it.value.replace(',', '.')) || 0;
-      return `<tr><td class="td-desc">${it.desc}</td><td class="td-val">${symbol} ${fmt(v)}</td></tr>`;
+      const desc = it.isRefund ? `Refund - ${it.desc}` : it.desc;
+      return `<tr><td class="td-desc">${desc}</td><td class="td-val">${symbol} ${fmt(v)}</td></tr>`;
     }).join('');
 
     return `<!DOCTYPE html><html><head><meta charset="UTF-8">
@@ -548,6 +550,11 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
               {items.map((it, i) => (
                 <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8, background: '#fafafa', borderRadius: 6, padding: 8, border: '1px solid #eee' }}>
                   {it.receiptSrc && <img src={it.receiptSrc} alt="" style={{ width: 44, height: 44, objectFit: 'cover', borderRadius: 4, border: '1px solid #ddd', flexShrink: 0 }} />}
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', flexShrink: 0 }}>
+                    <input type="checkbox" checked={it.isRefund} onChange={e => updateItem(i, 'isRefund', e.target.checked)}
+                      style={{ width: 16, height: 16, cursor: 'pointer' }} />
+                    <span style={{ fontSize: 11, fontWeight: 600, color: it.isRefund ? '#22c55e' : '#999' }}>Refund</span>
+                  </label>
                   <input value={it.desc} onChange={e => updateItem(i, 'desc', e.target.value)} placeholder="Descrição"
                     style={{ flex: 3, padding: '6px 8px', border: '1px solid #ccc', borderRadius: 4, fontSize: 13 }} />
                   <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', borderRadius: 4, overflow: 'hidden', flex: 1 }}>
