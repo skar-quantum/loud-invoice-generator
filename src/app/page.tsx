@@ -71,7 +71,7 @@ function Field({ label, value, onChange, placeholder, type = 'text' }: { label: 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 20, background: '#fff', border: '1px solid #e0e0e0', borderRadius: 8, padding: 16 }}>
-      <div style={{ fontWeight: 700, fontSize: 13, color: '#c8102e', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>{title}</div>
+      <div style={{ fontWeight: 700, fontSize: 13, color: '#04fc3c', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>{title}</div>
       {children}
     </div>
   );
@@ -86,7 +86,7 @@ function BankFields({ form, set, showDoc = true }: { form: FormData; set: (k: ke
         <div style={{ display: 'flex', gap: 8 }}>
           {BANK_FORMATS.map(f => (
             <button key={f.id} onClick={() => set('bankFormat')(f.id)}
-              style={{ flex: 1, padding: '8px 4px', borderRadius: 6, border: `2px solid ${fmt === f.id ? '#c8102e' : '#ccc'}`, background: fmt === f.id ? '#fff0f0' : '#fff', color: fmt === f.id ? '#c8102e' : '#555', fontWeight: fmt === f.id ? 700 : 400, fontSize: 12, cursor: 'pointer', lineHeight: 1.3 }}>
+              style={{ flex: 1, padding: '8px 4px', borderRadius: 6, border: `2px solid ${fmt === f.id ? '#04fc3c' : '#ccc'}`, background: fmt === f.id ? '#fff0f0' : '#fff', color: fmt === f.id ? '#04fc3c' : '#555', fontWeight: fmt === f.id ? 700 : 400, fontSize: 12, cursor: 'pointer', lineHeight: 1.3 }}>
               {f.label}<br /><span style={{ fontSize: 10, fontWeight: 400, color: '#999' }}>{f.hint}</span>
             </button>
           ))}
@@ -128,7 +128,7 @@ function BankFields({ form, set, showDoc = true }: { form: FormData; set: (k: ke
             <div style={{ display: 'flex', gap: 8 }}>
               {DOC_TYPES.map(t => (
                 <button key={t} onClick={() => set('docType')(t)}
-                  style={{ flex: 1, padding: '8px 0', borderRadius: 6, border: `2px solid ${form.docType === t ? '#c8102e' : '#ccc'}`, background: form.docType === t ? '#fff0f0' : '#fff', color: form.docType === t ? '#c8102e' : '#555', fontWeight: form.docType === t ? 700 : 400, fontSize: 13, cursor: 'pointer' }}>
+                  style={{ flex: 1, padding: '8px 0', borderRadius: 6, border: `2px solid ${form.docType === t ? '#04fc3c' : '#ccc'}`, background: form.docType === t ? '#fff0f0' : '#fff', color: form.docType === t ? '#04fc3c' : '#555', fontWeight: form.docType === t ? 700 : 400, fontSize: 13, cursor: 'pointer' }}>
                   {t}
                 </button>
               ))}
@@ -173,7 +173,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
     <div style={{ minHeight: '100vh', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Arial, sans-serif' }}>
       <div style={{ background: '#1a1a1a', borderRadius: 12, padding: 40, width: 360, boxShadow: '0 8px 32px rgba(0,0,0,.5)' }}>
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{ background: '#c8102e', color: '#fff', fontWeight: 900, fontSize: 24, padding: '8px 20px', borderRadius: 8, display: 'inline-block', letterSpacing: 2 }}>LOUD</div>
+          <div style={{ background: '#04fc3c', color: '#fff', fontWeight: 900, fontSize: 24, padding: '8px 20px', borderRadius: 8, display: 'inline-block', letterSpacing: 2 }}>LOUD</div>
           <div style={{ color: '#888', fontSize: 13, marginTop: 10 }}>Invoice Generator</div>
         </div>
         <div style={{ marginBottom: 14 }}>
@@ -189,7 +189,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
             style={{ width: '100%', marginTop: 4, padding: '9px 10px', borderRadius: 5, border: '1px solid #333', background: '#222', color: '#fff', fontSize: 13, boxSizing: 'border-box' }} />
         </div>
         {err && <div style={{ color: '#ff6b6b', fontSize: 12, marginBottom: 12, textAlign: 'center' }}>{err}</div>}
-        <button onClick={handle} style={{ width: '100%', background: '#c8102e', color: '#fff', border: 'none', borderRadius: 6, padding: 12, fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>ENTRAR</button>
+        <button onClick={handle} style={{ width: '100%', background: '#04fc3c', color: '#fff', border: 'none', borderRadius: 6, padding: 12, fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>ENTRAR</button>
       </div>
     </div>
   );
@@ -227,7 +227,7 @@ function PlayerPage({ players, setPlayers, onBack }: { players: FormData[]; setP
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
           <button onClick={onBack} style={{ background: '#222', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 14px', cursor: 'pointer', fontSize: 13 }}>← Voltar</button>
-          <div style={{ background: '#c8102e', color: '#fff', fontWeight: 900, fontSize: 18, padding: '6px 14px', borderRadius: 6 }}>LOUD</div>
+          <div style={{ background: '#04fc3c', color: '#fff', fontWeight: 900, fontSize: 18, padding: '6px 14px', borderRadius: 6 }}>LOUD</div>
           <div style={{ fontWeight: 700, fontSize: 16 }}>Cadastro de Jogadores</div>
         </div>
 
@@ -243,7 +243,7 @@ function PlayerPage({ players, setPlayers, onBack }: { players: FormData[]; setP
           {msg && <div style={{ fontSize: 13, marginBottom: 8, color: msg.startsWith('✅') ? '#2a9d2a' : '#c00' }}>{msg}</div>}
           <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
             <button onClick={save} disabled={loading}
-              style={{ background: '#c8102e', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 24px', fontWeight: 700, fontSize: 14, cursor: 'pointer', opacity: loading ? .6 : 1 }}>
+              style={{ background: '#04fc3c', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 24px', fontWeight: 700, fontSize: 14, cursor: 'pointer', opacity: loading ? .6 : 1 }}>
               {loading ? 'Salvando...' : editIdx !== null ? '💾 Salvar Alterações' : '➕ Cadastrar Jogador'}
             </button>
             {editIdx !== null && (
@@ -357,7 +357,7 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
   };
 
   const loudLogoSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="120" height="36">
-    <rect width="200" height="60" rx="6" fill="#c8102e"/>
+    <rect width="200" height="60" rx="6" fill="#04fc3c"/>
     <text x="100" y="42" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="36" fill="white" text-anchor="middle" letter-spacing="4">LOUD</text>
   </svg>`;
   const loudLogoDataURL = `data:image/svg+xml;base64,${btoa(loudLogoSVG)}`;
@@ -379,14 +379,14 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
       body { font-family: Arial, sans-serif; font-size: 12px; color: #111; background: #fff; }
       .page { width: 100%; min-height: 257mm; page-break-after: always; display: flex; flex-direction: column; }
       .receipt-page { align-items: center; justify-content: center; padding: 4mm 0; }
-      .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #c8102e; padding-bottom: 12px; margin-bottom: 18px; }
+      .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #04fc3c; padding-bottom: 12px; margin-bottom: 18px; }
       .header-left img { display: block; }
       .header-right { text-align: right; }
-      .header-right h1 { font-size: 22px; color: #c8102e; letter-spacing: 2px; }
+      .header-right h1 { font-size: 22px; color: #04fc3c; letter-spacing: 2px; }
       .header-right .inv-meta { font-size: 11px; color: #777; margin-top: 4px; }
       .row2 { display: flex; gap: 32px; margin-bottom: 18px; }
       .block { flex: 1; }
-      .label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #c8102e; border-bottom: 1px solid #eee; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px; }
+      .label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #04fc3c; border-bottom: 1px solid #eee; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px; }
       .block div { font-size: 11px; line-height: 1.6; color: #333; }
       .block div strong { color: #111; }
       table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
@@ -396,9 +396,9 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
       .td-desc { padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 11px; }
       .td-val { padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 11px; text-align: right; white-space: nowrap; }
       tr:nth-child(even) td { background: #fafafa; }
-      .total-row td { font-weight: 700; font-size: 12px; background: #fff0f0 !important; color: #c8102e; border-top: 2px solid #c8102e; border-bottom: none; }
-      .wire { background: #f9f9f9; border: 1px solid #e0e0e0; border-left: 4px solid #c8102e; border-radius: 4px; padding: 12px 14px; margin-top: 10px; font-size: 11px; line-height: 2; }
-      .wire-title { font-weight: 700; color: #c8102e; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+      .total-row td { font-weight: 700; font-size: 12px; background: #fff0f0 !important; color: #04fc3c; border-top: 2px solid #04fc3c; border-bottom: none; }
+      .wire { background: #f9f9f9; border: 1px solid #e0e0e0; border-left: 4px solid #04fc3c; border-radius: 4px; padding: 12px 14px; margin-top: 10px; font-size: 11px; line-height: 2; }
+      .wire-title { font-weight: 700; color: #04fc3c; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
       .footer { margin-top: auto; padding-top: 16px; border-top: 1px solid #eee; text-align: center; font-size: 9px; color: #bbb; }
     </style></head><body>
     <div class="page">
@@ -465,7 +465,7 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
     <div style={{ background: '#f4f4f4', minHeight: '100vh', padding: 20, fontFamily: 'Arial, sans-serif' }}>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-          <div style={{ background: '#c8102e', color: '#fff', fontWeight: 900, fontSize: 18, padding: '6px 14px', borderRadius: 6 }}>LOUD</div>
+          <div style={{ background: '#04fc3c', color: '#fff', fontWeight: 900, fontSize: 18, padding: '6px 14px', borderRadius: 6 }}>LOUD</div>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 700, fontSize: 16 }}>Gerador de Invoice de Reembolso</div>
             <div style={{ fontSize: 12, color: '#777' }}>Upload de recibos com preenchimento automático por IA</div>
@@ -510,14 +510,14 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
             <div style={{ marginBottom: 14 }}>
               <label style={{ fontSize: 11, fontWeight: 600, color: '#555', display: 'block', marginBottom: 4 }}>Selecionar jogador cadastrado</label>
               <select value={selectedPlayer} onChange={e => loadPlayer(e.target.value)}
-                style={{ width: '100%', padding: '8px 10px', border: '1px solid #c8102e', borderRadius: 6, fontSize: 13, background: '#fff', color: '#111', fontWeight: 600 }}>
+                style={{ width: '100%', padding: '8px 10px', border: '1px solid #04fc3c', borderRadius: 6, fontSize: 13, background: '#fff', color: '#111', fontWeight: 600 }}>
                 <option value="">— Selecione um jogador —</option>
                 {players.map((p, i) => <option key={i} value={i}>{p.name}</option>)}
               </select>
             </div>
           ) : (
             <div style={{ fontSize: 12, color: '#999', marginBottom: 10, padding: 10, background: '#fafafa', borderRadius: 6, border: '1px dashed #ddd' }}>
-              Nenhum jogador cadastrado. <span onClick={onGoPlayers} style={{ color: '#c8102e', cursor: 'pointer', fontWeight: 600 }}>Cadastrar agora →</span>
+              Nenhum jogador cadastrado. <span onClick={onGoPlayers} style={{ color: '#04fc3c', cursor: 'pointer', fontWeight: 600 }}>Cadastrar agora →</span>
             </div>
           )}
           <Field label="Nome completo" value={shipName} onChange={setShipName} placeholder="Nome do jogador" />
@@ -536,7 +536,7 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
 
         <Section title="Recibos & Itens de Reembolso">
           <div onClick={() => !analyzing && fileRef.current?.click()}
-            style={{ border: `2px dashed ${analyzing ? '#aaa' : '#c8102e'}`, borderRadius: 8, padding: 20, textAlign: 'center', cursor: analyzing ? 'not-allowed' : 'pointer', color: analyzing ? '#aaa' : '#c8102e', marginBottom: 16, background: analyzing ? '#fafafa' : '#fff' }}>
+            style={{ border: `2px dashed ${analyzing ? '#aaa' : '#04fc3c'}`, borderRadius: 8, padding: 20, textAlign: 'center', cursor: analyzing ? 'not-allowed' : 'pointer', color: analyzing ? '#aaa' : '#04fc3c', marginBottom: 16, background: analyzing ? '#fafafa' : '#fff' }}>
             {analyzing
               ? <><div style={{ fontSize: 24 }}>⏳</div><div style={{ fontWeight: 600 }}>{analyzeStatus}</div><div style={{ fontSize: 11, color: '#999' }}>Aguarde, analisando com IA...</div></>
               : <><div style={{ fontSize: 28 }}>📎</div><div style={{ fontWeight: 600 }}>Clique para adicionar fotos dos recibos</div><div style={{ fontSize: 11, color: '#999' }}>JPG, PNG — valor e descrição preenchidos automaticamente pela IA</div></>}
@@ -558,7 +558,7 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
                   <button onClick={() => removeItem(i)} style={{ background: '#fee', border: '1px solid #fcc', color: '#c00', borderRadius: 4, padding: '5px 10px', cursor: 'pointer', fontSize: 13 }}>✕</button>
                 </div>
               ))}
-              <button onClick={addItem} style={{ marginTop: 4, background: '#fff', border: '1px dashed #c8102e', color: '#c8102e', borderRadius: 4, padding: '6px 14px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>+ Adicionar item manualmente</button>
+              <button onClick={addItem} style={{ marginTop: 4, background: '#fff', border: '1px dashed #04fc3c', color: '#04fc3c', borderRadius: 4, padding: '6px 14px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>+ Adicionar item manualmente</button>
               <div style={{ textAlign: 'right', marginTop: 12, fontWeight: 700, fontSize: 16 }}>Total: {symbol} {fmt(total)}</div>
             </div>
           )}
@@ -569,7 +569,7 @@ function InvoicePage({ players, onLogout, onGoPlayers }: { players: FormData[]; 
         </Section>
 
         <button onClick={printPDF}
-          style={{ width: '100%', background: '#c8102e', color: '#fff', border: 'none', borderRadius: 8, padding: '14px', fontSize: 16, fontWeight: 700, cursor: 'pointer', letterSpacing: 1 }}>
+          style={{ width: '100%', background: '#04fc3c', color: '#fff', border: 'none', borderRadius: 8, padding: '14px', fontSize: 16, fontWeight: 700, cursor: 'pointer', letterSpacing: 1 }}>
           🖨️ GERAR PDF
         </button>
         <div style={{ textAlign: 'center', fontSize: 11, color: '#aaa', marginTop: 8 }}>O PDF abrirá numa nova aba para você salvar ou imprimir</div>
