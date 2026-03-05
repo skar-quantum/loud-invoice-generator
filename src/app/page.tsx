@@ -195,28 +195,54 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
   );
 }
 
-function PlayerPage({ players, setPlayers, onBack }: { players: FormData[]; setPlayers: (p: FormData[]) => void; onBack: () => void }) {
+function PlayerPage({ players, setPlayers, onBack, onRefresh }: { players: FormData[]; setPlayers: (p: FormData[]) => void; onBack: () => void; onRefresh?: () => void }) {
   const [form, setForm] = useState<FormData>(emptyForm);
   const [editIdx, setEditIdx] = useState<number | null>(null);
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const set = (k: keyof FormData) => (v: string) => setForm(f => ({ ...f, [k]: v }));
 
-  const save = () => {
+  const save = async () => {
     if (!form.name.trim()) { setMsg('❌ Nome é obrigatório.'); return; }
     setLoading(true);
-    const next = editIdx !== null ? players.map((p, i) => i === editIdx ? form : p) : [...players, form];
-    storageSave('loud-players', next);
-    setPlayers(next);
-    setForm(emptyForm); setEditIdx(null);
-    setMsg('✅ Jogador salvo!'); setTimeout(() => setMsg(''), 2500);
+    try {
+      const dbData = {
+        name: form.name,
+        document_type: (form.docType || 'cpf').toLowerCase(),
+        document: form.docNumber,
+        bank_format: (form.bankFormat || 'br').toLowerCase(),
+        bank_name: form.bankName || form.bank,
+        bank_branch: form.agency,
+        bank_account: form.account,
+        routing_number: form.routing,
+        swift_code: form.swift,
+        iban: '',
+      };
+      await fetch('/api/players', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dbData),
+      });
+      setForm(emptyForm); setEditIdx(null);
+      setMsg('✅ Jogador salvo!'); setTimeout(() => setMsg(''), 2500);
+      if (onRefresh) onRefresh(); // Reload players from API
+    } catch (e) {
+      console.error('Failed to save player:', e);
+      setMsg('❌ Erro ao salvar jogador.');
+    }
     setLoading(false);
   };
   const edit = (i: number) => { setForm({ ...emptyForm, ...players[i] }); setEditIdx(i); };
-  const remove = (i: number) => {
-    const next = players.filter((_, idx) => idx !== i);
-    storageSave('loud-players', next);
-    setPlayers(next);
+  const remove = async (i: number) => {
+    const player = players[i] as FormData & { id?: string };
+    if (player.id) {
+      try {
+        await fetch(`/api/players?id=${player.id}`, { method: 'DELETE' });
+        if (onRefresh) onRefresh();
+      } catch (e) {
+        console.error('Failed to delete player:', e);
+      }
+    }
     if (editIdx === i) { setEditIdx(null); setForm(emptyForm); }
   };
 
@@ -593,10 +619,40 @@ export default function App() {
   const [players, setPlayers] = useState<FormData[]>([]);
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const data = storageLoad('loud-players');
-    if (Array.isArray(data)) setPlayers(data);
+  const loadPlayers = async () => {
+    try {
+      const res = await fetch('/api/players');
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        // Map from DB format to form format
+        const mapped = data.map((p: Record<string, string>) => ({
+          name: p.name || '',
+          title: '',
+          address: '',
+          email: '',
+          bankFormat: (p.bank_format || 'br').toUpperCase(),
+          bankName: p.bank_name || '',
+          bankAddress: '',
+          bankEmail: '',
+          bank: p.bank_name || '',
+          account: p.bank_account || '',
+          agency: p.bank_branch || '',
+          routing: p.routing_number || '',
+          swift: p.swift_code || '',
+          docType: (p.document_type || 'cpf').toUpperCase(),
+          docNumber: p.document || '',
+          id: p.id,
+        }));
+        setPlayers(mapped);
+      }
+    } catch (e) {
+      console.error('Failed to load players:', e);
+    }
     setLoaded(true);
+  };
+
+  useEffect(() => {
+    loadPlayers();
   }, []);
 
   if (!loaded) return (
@@ -609,7 +665,7 @@ export default function App() {
     <>
       {page === 'login' && <LoginPage onLogin={() => setPage('invoice')} />}
       {page === 'invoice' && <InvoicePage players={players} onLogout={() => setPage('login')} onGoPlayers={() => setPage('players')} />}
-      {page === 'players' && <PlayerPage players={players} setPlayers={setPlayers} onBack={() => setPage('invoice')} />}
+      {page === 'players' && <PlayerPage players={players} setPlayers={setPlayers} onBack={() => setPage('invoice')} onRefresh={loadPlayers} />}
     </>
   );
 }
